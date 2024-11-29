@@ -18,9 +18,10 @@ import {
 import { Helmet, history, useModel } from '@umijs/max';
 import { Alert, message, Tabs } from 'antd';
 import { createStyles } from 'antd-style';
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { flushSync } from 'react-dom';
 import Settings from '../../../../config/defaultSettings';
+import {listChartByPageUsingPost} from "@/services/bi/chartController";
 const useStyles = createStyles(({ token }) => {
   return {
     action: {
@@ -89,6 +90,13 @@ const Login: React.FC = () => {
   const [type, setType] = useState<string>('account');
   const { initialState, setInitialState } = useModel('@@initialState');
   const { styles } = useStyles();
+
+  useEffect(() => {
+    listChartByPageUsingPost({}).then(res => {
+      console.error('res', res)
+    })
+  })
+
   const fetchUserInfo = async () => {
     const userInfo = await initialState?.fetchUserInfo?.();
     if (userInfo) {
@@ -144,9 +152,9 @@ const Login: React.FC = () => {
             minWidth: 280,
             maxWidth: '75vw',
           }}
-          logo={<img alt="logo" src="/logo.svg" />}
-          title="Ant Design"
-          subTitle={'Ant Design 是西湖区最具影响力的 Web 设计规范'}
+          logo={<img alt="logo" src="/logo.jpg" />}
+          title="智能数据分析平台"
+          subTitle={'智能数据分析平台 是武汉市最具影响力的 Web 设计规范'}
           initialValues={{
             autoLogin: true,
           }}
